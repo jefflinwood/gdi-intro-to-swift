@@ -264,7 +264,8 @@ print(greeting)
 				</section>
 				<section>
 					<h2>If Else</h2>
-<pre><code contenteditable class ="swift">if age >= 18 {
+<pre><code contenteditable class ="swift">var isAdult:Bool
+if age >= 18 {
   isAdult = true
 } else {
   isAdult = false
@@ -458,6 +459,11 @@ print(isAdult)
 					</ul>
 				</section>
 
+				<section>
+					<h1>Image View Exercise</h1>
+				</section>
+
+
 				<!-- Developing a Camera App for iOS -->
 				<section>
 					<h1>Developing a Camera App for iOS</h1>
@@ -490,7 +496,20 @@ print(isAdult)
 						<li>You need to call it from another view controller</li>
 						<li>Need to implement two delegates on that view controller</li>
 					</ul>
-				</section>			
+				</section>
+				<section>
+						<h2>Show Image Picker</h2>
+<pre><code contenteditable class ="swift">@IBAction func pickAPhoto(_ sender: Any) {
+	if !UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+		return;
+	}
+	let picker = UIImagePickerController()
+	picker.delegate = self
+	picker.sourceType = .photoLibrary
+	present(picker, animated: true, completion: nil)
+}
+</code></pre>
+					</section>			
 				
 				<section>
 					<h2>Privacy Issues</h2>
@@ -508,6 +527,38 @@ print(isAdult)
 						<li>Need to implement UIImagePickerControllerDelegate methods</li>
 					</ul>
 				</section>
+
+				<section>
+					<h2>Successfully took Photo</h2>
+<pre><code contenteditable class ="swift">func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+	if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+		photoImageView.image = image
+	}
+	picker.dismiss(animated: true, completion: nil)
+}
+</code></pre>
+				</section>
+
+				<section>
+						<h2>User Canceled Photo</h2>
+<pre><code contenteditable class ="swift">func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+	picker.dismiss(animated: true, completion: nil)
+}
+</code></pre>
+					</section>
+
+					<section>
+							<h2>Sharing the Photo</h2>
+<pre><code contenteditable class ="swift">@IBAction func shareAPhoto(_ sender: Any) {
+	guard let image = photoImageView.image else {
+		return
+	}
+	let activityViewController = UIActivityViewController(activityItems: [image], 
+		applicationActivities: nil)
+	present(activityViewController, animated: true, completion: nil)
+}
+</code></pre>
+						</section>
 
 				<!-- Building a Camera App -->
 				<section>
